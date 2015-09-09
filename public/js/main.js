@@ -19,10 +19,6 @@ var maxThreshold = 15;
 var frameRate = 30;
 
 var myEmotion = new MyClmTracker();
-var startCountingEmoji = false;
-var emojiTimer = 1;
-
-var emoji = document.getElementById("emoji");
 
 var preEmotion = null;
 var curEmotion = 'happy';
@@ -78,7 +74,7 @@ function update() {
   data.getAvg();
   data.getTotalDist();
 
-  if ((drawPoints.myTriangles.length <= 1 || data.triangleAlpha < 0.05) && emojiTimer === 0) {
+  if (drawPoints.myTriangles.length <= 1 || data.triangleAlpha < 0.05) {
     if (startTimer === 0) {
       //console.log("ouch!");
       myEmotion.ctrack.start(vid);
@@ -92,37 +88,9 @@ function update() {
   }
 
   if (preEmotion !== curEmotion && curEmotion !== null) {
-    switch (curEmotion) {
-    case 'happy':
-      emoji.innerHTML = '<img src="img/happy.png" width="60">';
-      break;
-    case 'sad':
-      emoji.innerHTML = '<img src="img/sad.png" width="60">';
-      break;
-    case 'surprised':
-      emoji.innerHTML = '<img src="img/surprise.png" width="60">';
-      break;
-    case 'angry':
-      emoji.innerHTML = '<img src="img/angry.png" width="60">';
-      break;
-    default:
-      emoji.innerHTML = null;
-      break;
-    }
     setNewEmo(curEmotion);
     preEmotion = curEmotion;
-    startCountingEmoji = true;
     //console.log(curEmotion);
-  }
-
-  if (startCountingEmoji) {
-    emojiTimer++;
-  }
-
-  if (emojiTimer > 20) {
-    emoji.innerHTML = null;
-    startCountingEmoji = false;
-    emojiTimer = 0;
   }
 }
 
